@@ -107,6 +107,16 @@ export const useExpenseStore = defineStore('expense', () => {
     )
   })
 
+  function loadExpensesForUser(userId) {
+    try {
+      const key = storageKey(userId)
+      const stored = localStorage.getItem(key)
+      return stored ? JSON.parse(stored) : []
+    } catch {
+      return []
+    }
+  }
+
   return {
     expenses,
     addExpense,
@@ -120,5 +130,6 @@ export const useExpenseStore = defineStore('expense', () => {
     totalAll,
     byCategory,
     highestExpense,
+    loadExpensesForUser,
   }
 })

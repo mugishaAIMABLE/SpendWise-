@@ -7,5 +7,10 @@ export const EXPENSE_CATEGORIES = [
   'Healthcare',
   'Education',
   'Personal',
+  'Travel',
+  'Meals & Lodging',
+  'Office Supplies',
+  'Client Meetings',
+  'Professional Development',
   'Other',
 ]

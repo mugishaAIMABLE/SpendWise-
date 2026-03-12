@@ -1,5 +1,62 @@
-# Vue 3 + Vite
+# SpendWise
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+A personal expense-tracking web app built with Vue 3 and Vite. Track spending, view summaries, and manage expenses with role-based access (user and admin).
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## Tech Stack
+
+- **Vue 3** (Composition API, `<script setup>`)
+- **Vite** – build tool and dev server
+- **Vue Router** – client-side routing
+- **Pinia** – state management (auth, expenses)
+
+## Features
+
+- **Authentication** – Login and register; protected routes
+- **Dashboard** – Add, view, and manage expenses with categories
+- **Summary** – Overview of spending and totals
+- **Admin dashboard** – Admin-only area for managing the app
+- **Role-based access** – Different views for regular users and admins
+
+## Project Setup
+
+### Prerequisites
+
+- Node.js (v18+ recommended)
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Development
+
+Run the dev server with hot reload:
+
+```bash
+npm run dev
+```
+
+### Build for production
+
+```bash
+npm run build
+```
+
+### Preview production build
+
+```bash
+npm run preview
+```
+
+## Project Structure
+
+- `src/views/` – Page components (Dashboard, Summary, Login, Register, AdminDashboard)
+- `src/components/` – Reusable UI (ExpenseForm, ExpenseTable)
+- `src/stores/` – Pinia stores (authStore, expenseStore)
+- `src/composables/` – Shared logic (useAuth, useExpenses)
+- `src/router/` – Route definitions and navigation guards
+
+## License
+
+Private project.
