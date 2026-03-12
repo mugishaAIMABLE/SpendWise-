@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
+import { formatCurrency } from '../utils/formatters'  
 
 const props = defineProps({
   expenses: {
@@ -105,7 +106,7 @@ function confirmDelete(expense) {
           <td>
             <span class="category-badge">{{ expense.category }}</span>
           </td>
-          <td class="amount">${{ Number(expense.amount).toFixed(2) }}</td>
+          <td class="amount">{{ formatCurrency(expense.amount) }}</td>
           <td class="actions">
             <button class="btn-icon" title="Edit" aria-label="Edit expense" @click="emit('edit', expense)">
               Edit
