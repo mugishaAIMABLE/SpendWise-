@@ -21,15 +21,15 @@ onMounted(() => {
       <div class="totals-grid">
         <div class="total-card">
           <span class="total-label">Today</span>
-          <span class="total-value">${{ (expenseStore.totalToday ?? 0).toFixed(2) }}</span>
+          <span class="total-value">{{ (expenseStore.totalToday ?? 0).toFixed(0) }}Rwf</span>
         </div>
         <div class="total-card">
           <span class="total-label">This Week</span>
-          <span class="total-value">${{ (expenseStore.totalThisWeek ?? 0).toFixed(2) }}</span>
+          <span class="total-value">{{ (expenseStore.totalThisWeek ?? 0).toFixed(0) }}Rwf</span>
         </div>
         <div class="total-card">
           <span class="total-label">This Month</span>
-          <span class="total-value">${{ (expenseStore.totalThisMonth ?? 0).toFixed(2) }}</span>
+          <span class="total-value">{{ (expenseStore.totalThisMonth ?? 0).toFixed(2) }}Rwf</span>
         </div>
       </div>
     </section>

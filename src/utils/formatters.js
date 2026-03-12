@@ -4,8 +4,8 @@
 
 export function formatCurrency(amount) {
   const num = Number(amount)
-  if (Number.isNaN(num)) return '$0.00'
-  return `$${num.toFixed(2)}`
+  if (Number.isNaN(num)) return '0rwf'
+  return `${num.toFixed(2)}Rwf`
 }
 
 export function formatDate(dateStr) {
