@@ -36,8 +36,10 @@ async function onSubmit(e) {
 <template>
   <div class="auth-page">
     <div class="auth-card">
-      <h1>Login</h1>
-      <p class="auth-subtitle">Sign in to your SpendWise account</p>
+      <div class="auth-header">
+        <h1 class="brand-title">SpendWise</h1>
+        <p class="auth-subtitle">Sign in to your account</p>
+      </div>
       <form @submit="onSubmit" class="auth-form" novalidate>
         <p v-if="error" id="login-error" class="error" role="alert">{{ error }}</p>
         <div class="form-row">
@@ -70,7 +72,7 @@ async function onSubmit(e) {
       </form>
       <p class="auth-footer">
         Don't have an account?
-        <RouterLink to="/register" class="link">Register</RouterLink>
+        <RouterLink to="/register" class="link">Create one</RouterLink>
       </p>
     </div>
   </div>
@@ -82,19 +84,26 @@ async function onSubmit(e) {
   align-items: center;
   justify-content: center;
   min-height: 60vh;
+  padding: 2rem 0;
 }
 .auth-card {
   width: 100%;
-  max-width: 380px;
+  max-width: 400px;
   background: var(--card-bg);
-  border-radius: 12px;
-  padding: 2rem;
+  border-radius: 16px;
+  padding: 2.25rem;
   border: 1px solid var(--border);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
 }
-.auth-card h1 {
+.auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.brand-title {
   margin: 0 0 0.25rem 0;
   font-size: 1.5rem;
-  color: var(--text);
+  font-weight: 700;
+  color: var(--primary);
 }
 .auth-subtitle {
   margin: 0 0 1.5rem 0;
@@ -117,7 +126,7 @@ async function onSubmit(e) {
 }
 .auth-form input {
   width: 100%;
-  padding: 0.6rem 0.75rem;
+  padding: 0.65rem 0.85rem;
   border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 1rem;
@@ -127,28 +136,29 @@ async function onSubmit(e) {
 .auth-form input:focus {
   outline: none;
   border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-alpha);
 }
 .auth-form .btn-primary {
   width: 100%;
   margin-top: 0.5rem;
-  padding: 0.75rem;
-  background: var(--primary);
+  padding: 0.8rem;
+  background: linear-gradient(135deg, var(--primary) 0%, #1d4ed8 100%);
   color: white;
   border: none;
   border-radius: 8px;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
 }
 .auth-form .btn-primary:hover:not(:disabled) {
-  opacity: 0.9;
+  opacity: 0.95;
 }
 .auth-form .btn-primary:disabled {
-  opacity: 0.7;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 .auth-footer {
-  margin: 1.5rem 0 0 0;
+  margin: 1.75rem 0 0 0;
   text-align: center;
   color: var(--text-muted);
   font-size: 0.95rem;
@@ -156,6 +166,7 @@ async function onSubmit(e) {
 .auth-footer .link {
   color: var(--primary);
   text-decoration: none;
+  font-weight: 500;
 }
 .auth-footer .link:hover {
   text-decoration: underline;
