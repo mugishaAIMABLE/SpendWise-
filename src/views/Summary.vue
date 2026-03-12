@@ -29,7 +29,7 @@ onMounted(() => {
         </div>
         <div class="total-card">
           <span class="total-label">This Month</span>
-          <span class="total-value">{{ (expenseStore.totalThisMonth ?? 0).toFixed(2) }}Rwf</span>
+          <span class="total-value">{{ (expenseStore.totalThisMonth ?? 0).toFixed(0) }}Rwf</span>
         </div>
       </div>
     </section>
@@ -46,7 +46,7 @@ onMounted(() => {
           class="category-item"
         >
           <span class="category-name">{{ category }}</span>
-          <span class="category-amount">${{ Number(amount).toFixed(2) }}</span>
+          <span class="category-amount">{{ Number(amount).toFixed(2) }}Rwf</span>
         </div>
       </div>
     </section>
@@ -62,7 +62,7 @@ onMounted(() => {
           </span>
         </div>
         <span class="highest-amount"
-          >${{ Number(expenseStore.highestExpense.amount).toFixed(2) }}</span
+          >{{ Number(expenseStore.highestExpense.amount).toFixed(0) }}Rwf</span
         >
       </div>
     </section>
