@@ -11,7 +11,7 @@ const selectedMonth = ref(new Date().getMonth())
 const selectedYear = ref(new Date().getFullYear())
 const expandedUser = ref(null)
 
-const isOrgAdmin = computed(() => authStore.isAdmin && authStore.currentUser?.organizationId)
+const isOrgAdmin = computed(() => authStore.isAdmin && !!authStore.getOrganization())
 
 const employees = computed(() => authStore.orgEmployees())
 

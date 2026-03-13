@@ -101,7 +101,7 @@ async function onSubmit(e) {
   try {
     const result = await authStore.register(payload)
     if (result.success) {
-      router.push(authStore.isAdmin ? '/admin' : '/')
+      router.push(result.role === authStore.ROLES.ADMIN ? '/admin' : '/')
     } else {
       error.value = result.error || 'Registration failed'
     }

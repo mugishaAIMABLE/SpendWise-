@@ -140,7 +140,7 @@ export const useAuthStore = defineStore('auth', () => {
       organizationCode: org?.code || null,
     }
     localStorage.setItem(CURRENT_USER_KEY, id)
-    return { success: true }
+    return { success: true, role }
   }
 
   async function login(email, password) {
@@ -188,15 +188,17 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function orgEmployees() {
-    const orgId = currentUser.value?.organizationId
-    if (!orgId || currentUser.value?.role !== ROLES.ADMIN) return []
-    return loadUsers().filter((u) => u.organizationId === orgId && u.role === ROLES.EMPLOYEE)
+    const org = getOrganization()
+    if (!org || currentUser.value?.role !== ROLES.ADMIN) return []
+    return loadUsers().filter((u) => u.organizationId === org.id && u.role === ROLES.EMPLOYEE)
   }
 
   function getOrganization() {
     const orgId = currentUser.value?.organizationId
-    if (!orgId) return null
-    return loadOrgs().find((o) => o.id === orgId)
+    if (orgId) return loadOrgs().find((o) => o.id === orgId) || null
+    if (currentUser.value?.role === ROLES.ADMIN)
+      return loadOrgs().find((o) => o.adminId === currentUser.value?.id) || null
+    return null
   }
 
   return {

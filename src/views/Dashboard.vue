@@ -1,10 +1,37 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '../stores/authStore'
 import { useExpenseStore } from '../stores/expenseStore'
 import ExpenseForm from '../components/ExpenseForm.vue'
 import ExpenseTable from '../components/ExpenseTable.vue'
+import { formatCurrency } from '../utils/formatters'
 
+const router = useRouter()
+const authStore = useAuthStore()
 const expenseStore = useExpenseStore()
+
+const isOrgAdmin = computed(() => authStore.isAdmin && !!authStore.getOrganization())
+const employees = computed(() => authStore.orgEmployees())
+
+const employeeExpenseSummary = computed(() => {
+  const now = new Date()
+  const thisMonth = now.getMonth()
+  const thisYear = now.getFullYear()
+  return employees.value.map((emp) => {
+    const expenses = expenseStore.loadExpensesForUser(emp.id)
+    const total = expenses
+      .filter((e) => {
+        const d = new Date(e.date)
+        return d.getMonth() === thisMonth && d.getFullYear() === thisYear
+      })
+      .reduce((sum, e) => sum + Number(e.amount), 0)
+    return { ...emp, total }
+  }).filter((e) => e.total > 0)
+})
+const employeeTotalThisMonth = computed(() =>
+  employeeExpenseSummary.value.reduce((s, e) => s + e.total, 0)
+)
 
 onMounted(() => {
   expenseStore.loadExpenses()
@@ -59,6 +86,29 @@ function handleCancel() {
           <span class="total-value">${{ (expenseStore.totalThisMonth ?? 0).toFixed(2) }}</span>
         </div>
       </div>
+    </section>
+
+    <section v-if="isOrgAdmin" class="employee-expenses-section">
+      <h2>Employee expenses (this month)</h2>
+      <p class="employee-section-hint">Expenses submitted by your employees for reimbursement.</p>
+      <div v-if="employeeExpenseSummary.length === 0" class="employee-empty">
+        No employee expenses this month yet.
+      </div>
+      <div v-else class="employee-summary-cards">
+        <div
+          v-for="emp in employeeExpenseSummary"
+          :key="emp.id"
+          class="employee-summary-card"
+        >
+          <span class="employee-summary-name">{{ emp.name || emp.email }}</span>
+          <span class="employee-summary-total">{{ formatCurrency(emp.total) }}</span>
+        </div>
+        <div class="employee-summary-total-row">
+          <span>Total (this month)</span>
+          <span class="employee-total-value">{{ formatCurrency(employeeTotalThisMonth) }}</span>
+        </div>
+      </div>
+      <RouterLink to="/admin" class="btn-view-all">View full details in Admin →</RouterLink>
     </section>
 
     <section class="expenses-section">
@@ -130,5 +180,73 @@ function handleCancel() {
 }
 .expenses-section h2:not(:first-of-type) {
   margin-top: 2rem;
+}
+
+.employee-expenses-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.employee-expenses-section h2 {
+  margin: 0 0 0.35rem 0;
+  font-size: 1.15rem;
+  color: var(--text);
+}
+.employee-section-hint {
+  margin: 0 0 1rem 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+.employee-empty {
+  color: var(--text-muted);
+  padding: 1rem 0;
+}
+.employee-summary-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.employee-summary-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+}
+.employee-summary-name {
+  font-weight: 500;
+  color: var(--text);
+}
+.employee-summary-total {
+  font-weight: 600;
+  color: var(--primary);
+}
+.employee-summary-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  font-weight: 600;
+  color: var(--text);
+}
+.employee-total-value {
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+.btn-view-all {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--primary);
+  text-decoration: none;
+}
+.btn-view-all:hover {
+  text-decoration: underline;
 }
 </style>
